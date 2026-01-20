@@ -1,44 +1,30 @@
+cat > database/seeders/UserSeeder.php << 'EOF'
 <?php
 
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        //
-        $roleAdmin = Role::create(['name' => 'admin']);
-        $roleNormal = Role::create(['name' => 'usuarioapp']);
-
+        // Usuario de prueba
         User::create([
-            'name' => 'profe',
-            'email' => "admin@app.lan",
+            'name' => 'Cliente Demo',
+            'email' => 'cliente@test.com',
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
-            ]
-        )->assignRole($roleAdmin);
-        $usuariosAdmin = User::factory(4)->create();
-        $usuariosNormales = User::factory(50)->create();
+            'password' => Hash::make('password123') // Contraseña simple para pruebas
+        ]);
 
-
-        foreach($usuariosAdmin as $usuario) {
-            $usuario->assignRole($roleAdmin);
-        }
-        foreach($usuariosNormales as $usuario) {
-            $usuario->assignRole($roleNormal);
-        }
-
-
-
+        // Más usuarios de prueba
+        User::factory(20)->create();
+        
+        echo "Usuarios de prueba creados:\n";
+        echo "- cliente@test.com / password123\n";
+        echo "- 20 usuarios aleatorios\n";
     }
 }
+EOF
